@@ -1,0 +1,1257 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Agenix — Stores, Agents & Automation</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<style>
+
+:root {
+  --bg:    #0a0a0a;
+  --bg1:   #111111;
+  --bg2:   #181818;
+  --bggrey: #141414;
+  --bd:    rgba(255,255,255,0.07);
+  --bd2:   rgba(255,255,255,0.13);
+  --t1:    #ffffff;
+  --t2:    rgba(255,255,255,0.54);
+  --t3:    rgba(255,255,255,0.26);
+  --f:     'Inter', -apple-system, sans-serif;
+}
+
+*,*::before,*::after { box-sizing: border-box; margin: 0; padding: 0; }
+html { font-size: 16px; scroll-behavior: smooth; -webkit-font-smoothing: antialiased; }
+body { background: var(--bg); color: var(--t1); font-family: var(--f); overflow-x: hidden; }
+a { text-decoration: none; color: inherit; }
+button { font-family: var(--f); cursor: pointer; }
+::-webkit-scrollbar { width: 3px; }
+::-webkit-scrollbar-thumb { background: var(--bg2); }
+
+.w { max-width: 1080px; margin: 0 auto; padding: 0 40px; }
+section { padding: 80px 0; border-bottom: 1px solid var(--bd); }
+
+/* reveal */
+.rv { opacity: 0; transform: translateY(14px); transition: opacity .55s ease, transform .55s ease; }
+.rv.in { opacity: 1; transform: none; }
+.d1 { transition-delay: .07s; } .d2 { transition-delay: .14s; }
+.d3 { transition-delay: .21s; } .d4 { transition-delay: .28s; }
+
+/* ── NAV ── */
+nav {
+  position: fixed; top: 0; left: 0; right: 0; z-index: 100;
+  height: 56px; display: flex; align-items: center; justify-content: space-between;
+  padding: 0 32px;
+  background: rgba(10,10,10,.88); backdrop-filter: blur(20px);
+  border-bottom: 1px solid var(--bd);
+}
+.n-logo {
+  font-size: .9375rem; font-weight: 700; letter-spacing: -.02em;
+  display: flex; align-items: center; gap: 8px;
+}
+.n-mark {
+  width: 24px; height: 24px; background: #fff; border-radius: 5px;
+  display: flex; align-items: center; justify-content: center;
+  font-size: .7rem; font-weight: 800; color: #0a0a0a;
+}
+.n-links { display: flex; gap: 2px; }
+.n-a {
+  padding: 6px 11px; border-radius: 6px; font-size: .8rem;
+  font-weight: 500; color: var(--t2); transition: color .15s, background .15s;
+}
+.n-a:hover { color: var(--t1); background: rgba(255,255,255,.05); }
+.n-right { display: flex; gap: 8px; align-items: center; }
+.nb { padding: 7px 16px; border-radius: 7px; font-size: .8rem; font-weight: 500; border: none; transition: all .15s; }
+.nb-o { background: none; color: var(--t2); border: 1px solid var(--bd2); }
+.nb-o:hover { color: var(--t1); border-color: rgba(255,255,255,.25); }
+.nb-w { background: #fff; color: #0a0a0a; }
+.nb-w:hover { background: #e8e8e8; }
+.ham { display: none; background: none; border: none; flex-direction: column; gap: 4px; padding: 4px; }
+.hl { display: block; width: 18px; height: 1.5px; background: var(--t2); transition: all .3s; }
+.mob {
+  position: fixed; inset: 0; top: 56px; z-index: 99;
+  background: var(--bg); border-top: 1px solid var(--bd);
+  padding: 12px 24px; display: flex; flex-direction: column;
+  transform: translateY(-110%); transition: transform .3s ease;
+}
+.mob.open { transform: none; }
+.mob a { padding: 13px 0; font-size: .9rem; font-weight: 500; color: var(--t2); border-bottom: 1px solid var(--bd); display: block; }
+.mob a:hover { color: var(--t1); }
+
+/* ── HERO ── */
+#hero {
+  padding: 130px 0 80px; text-align: center;
+  position: relative; overflow: hidden;
+  background: #0a0a0a;
+}
+#plasma-canvas {
+  position: absolute; inset: 0; width: 100%; height: 100%;
+  pointer-events: none; z-index: 0;
+  mix-blend-mode: normal;
+}
+.hero-overlay {
+  position: absolute; inset: 0; pointer-events: none; z-index: 1;
+  background: radial-gradient(ellipse 100% 100% at 50% 50%, transparent 0%, rgba(10,10,10,0.35) 100%);
+}
+.hero-h {
+  font-size: clamp(2.5rem, 5.4vw, 4.1rem); font-weight: 700;
+  letter-spacing: -.04em; line-height: 1.06; max-width: 760px; margin: 0 auto;
+  animation: fup .55s ease both;
+}
+.hero-h .m { color: var(--t3); }
+.hero-p {
+  font-size: 1rem; color: var(--t2); line-height: 1.72;
+  max-width: 480px; margin: 18px auto 0;
+  animation: fup .55s .08s ease both;
+}
+.hero-btns {
+  display: flex; gap: 10px; justify-content: center; flex-wrap: wrap;
+  margin-top: 28px; animation: fup .55s .16s ease both;
+}
+.hbtn {
+  display: inline-flex; align-items: center; gap: 6px;
+  padding: 11px 22px; border-radius: 8px; border: none;
+  font-size: .875rem; font-weight: 600; transition: all .15s;
+}
+.hbtn-p { background: #fff; color: #0a0a0a; }
+.hbtn-p:hover { background: #e8e8e8; }
+.hbtn-g { background: rgba(255,255,255,.06); color: var(--t1); border: 1px solid var(--bd2); }
+.hbtn-g:hover { background: rgba(255,255,255,.09); }
+
+/* hero stat bar */
+.hero-stats {
+  display: flex; align-items: stretch;
+  border: 1px solid rgba(255,255,255,0.1); border-radius: 12px; overflow: hidden;
+  margin: 52px auto 0; max-width: 680px;
+  animation: fup .55s .22s ease both;
+  background: rgba(10,10,10,0.5);
+  backdrop-filter: blur(16px);
+}
+.hstat {
+  flex: 1; padding: 22px 24px; text-align: center;
+  border-right: 1px solid rgba(255,255,255,0.08); transition: background .2s;
+}
+.hstat:last-child { border-right: none; }
+.hstat:hover { background: rgba(255,255,255,.04); }
+.hstat-n {
+  font-size: 1.6rem; font-weight: 700; letter-spacing: -.035em;
+  line-height: 1; color: var(--t1);
+}
+.hstat-l { font-size: .7rem; color: var(--t3); margin-top: 5px; line-height: 1.4; }
+
+@keyframes fup { from { opacity: 0; transform: translateY(14px); } to { opacity: 1; transform: none; } }
+
+/* ── SECTION LABELS ── */
+.s-label { display: inline-block; font-size: .67rem; font-weight: 600; letter-spacing: .1em; text-transform: uppercase; color: var(--t3); margin-bottom: 12px; }
+.s-h { font-size: clamp(1.5rem, 2.6vw, 2rem); font-weight: 700; letter-spacing: -.03em; line-height: 1.15; }
+.s-sub { font-size: .9rem; color: var(--t2); margin-top: 10px; line-height: 1.65; max-width: 440px; }
+
+/* ── WHAT WE DO ── */
+#what { }
+.pillars { display: grid; grid-template-columns: repeat(3,1fr); gap: 10px; margin-top: 36px; }
+.pillar {
+  background: var(--bg1); border: 1px solid var(--bd);
+  border-radius: 12px; padding: 24px;
+  transition: border-color .2s, background .2s;
+}
+.pillar:hover { border-color: var(--bd2); background: var(--bg2); }
+.pillar-n { font-size: .62rem; font-weight: 500; color: var(--t3); margin-bottom: 16px; }
+.pillar-title { font-size: 1.0625rem; font-weight: 700; letter-spacing: -.02em; margin-bottom: 10px; }
+.pillar-body { font-size: .8rem; color: var(--t2); line-height: 1.68; }
+.pillar-list { margin-top: 16px; padding-top: 16px; border-top: 1px solid var(--bd); display: flex; flex-direction: column; gap: 7px; }
+.pillar-item { font-size: .775rem; color: var(--t2); display: flex; align-items: flex-start; gap: 8px; }
+.pillar-item::before { content: '—'; color: var(--t3); flex-shrink: 0; font-size: .7rem; padding-top: 1px; }
+
+/* ── STORES ── */
+#stores { }
+.store-grid { display: grid; grid-template-columns: repeat(2,1fr); gap: 10px; margin-top: 36px; }
+.store-card {
+  background: var(--bg1); border: 1px solid var(--bd);
+  border-radius: 12px; padding: 22px;
+  transition: border-color .2s, background .2s;
+}
+.store-card:hover { border-color: var(--bd2); background: var(--bg2); }
+.store-card.wide { grid-column: span 2; }
+.store-card-top { display: flex; align-items: center; justify-content: space-between; margin-bottom: 14px; }
+.store-platform { font-size: .67rem; font-weight: 600; letter-spacing: .08em; text-transform: uppercase; color: var(--t3); }
+.store-tag { font-size: .62rem; font-weight: 600; letter-spacing: .06em; text-transform: uppercase; padding: 3px 9px; border-radius: 100px; background: rgba(255,255,255,.05); border: 1px solid var(--bd); color: var(--t3); }
+.store-title { font-size: .9375rem; font-weight: 600; letter-spacing: -.015em; margin-bottom: 8px; }
+.store-body { font-size: .8rem; color: var(--t2); line-height: 1.65; }
+.store-feats { margin-top: 14px; padding-top: 14px; border-top: 1px solid var(--bd); display: flex; flex-direction: column; gap: 6px; }
+.store-feat { font-size: .775rem; color: var(--t2); display: flex; align-items: flex-start; gap: 8px; }
+.store-feat::before { content: '—'; color: var(--t3); flex-shrink: 0; font-size: .7rem; padding-top: 1px; }
+
+/* ── AGENTS ── */
+#agents { }
+.agents-grid { display: grid; grid-template-columns: repeat(3,1fr); gap: 10px; margin-top: 36px; }
+.ag {
+  background: var(--bg1); border: 1px solid var(--bd);
+  border-radius: 12px; padding: 20px;
+  transition: border-color .2s, background .2s;
+}
+.ag:hover { border-color: var(--bd2); background: var(--bg2); }
+.ag-header { display: flex; align-items: center; justify-content: space-between; margin-bottom: 14px; }
+.ag-n { font-size: .62rem; font-weight: 500; color: var(--t3); }
+.ag-tag { font-size: .62rem; font-weight: 600; letter-spacing: .06em; text-transform: uppercase; padding: 3px 9px; border-radius: 100px; background: rgba(255,255,255,.05); border: 1px solid var(--bd); color: var(--t3); }
+.ag-title { font-size: .9rem; font-weight: 600; letter-spacing: -.015em; margin-bottom: 7px; }
+.ag-body { font-size: .78rem; color: var(--t2); line-height: 1.65; }
+.ag-stat { display: flex; margin-top: 16px; padding-top: 14px; border-top: 1px solid var(--bd); }
+.ag-s { flex: 1; }
+.ag-s:first-child { padding-right: 14px; border-right: 1px solid var(--bd); margin-right: 14px; }
+.ag-sv { font-size: 1rem; font-weight: 700; letter-spacing: -.02em; }
+.ag-sl { font-size: .65rem; color: var(--t3); margin-top: 2px; }
+
+/* ── SECTORS ── */
+#sectors { }
+.sectors-grid { display: grid; grid-template-columns: repeat(4,1fr); gap: 10px; margin-top: 36px; }
+.sector {
+  background: var(--bg1); border: 1px solid var(--bd);
+  border-radius: 12px; padding: 22px 20px;
+  transition: border-color .2s, background .2s;
+}
+.sector:hover { border-color: var(--bd2); background: var(--bg2); }
+.sector-icon {
+  width: 36px; height: 36px; margin-bottom: 14px;
+  color: var(--t2);
+}
+.sector-icon svg { width: 36px; height: 36px; display: block; }
+.sector-name { font-size: .875rem; font-weight: 600; letter-spacing: -.01em; margin-bottom: 6px; }
+.sector-desc { font-size: .75rem; color: var(--t2); line-height: 1.6; }
+
+/* ── HOW ── */
+#how { background: var(--bggrey); }
+.steps {
+  display: grid; grid-template-columns: repeat(4,1fr); gap: 0;
+  margin-top: 36px; border: 1px solid var(--bd); border-radius: 12px; overflow: hidden;
+}
+.step { padding: 26px 22px; border-right: 1px solid var(--bd); transition: background .2s; }
+.step:last-child { border-right: none; }
+.step:hover { background: rgba(255,255,255,.02); }
+.step-n { font-size: .62rem; font-weight: 500; color: var(--t3); margin-bottom: 14px; }
+.step-title { font-size: .875rem; font-weight: 600; letter-spacing: -.01em; margin-bottom: 7px; }
+.step-body { font-size: .775rem; color: var(--t2); line-height: 1.65; }
+.step-time { display: inline-block; margin-top: 12px; font-size: .65rem; font-weight: 500; color: var(--t3); }
+
+/* ── RESULTS ── */
+#results { }
+.res-grid { display: grid; grid-template-columns: repeat(2,1fr); gap: 10px; margin-top: 36px; }
+.rc {
+  background: var(--bg1); border: 1px solid var(--bd);
+  border-radius: 12px; padding: 24px;
+  transition: border-color .2s;
+}
+.rc:hover { border-color: var(--bd2); }
+.rc.big {
+  grid-column: span 2; display: grid; grid-template-columns: 1fr 1fr;
+  gap: 32px; align-items: start; background: var(--bg2); border-color: var(--bd2);
+}
+.rc-cat { font-size: .65rem; font-weight: 600; letter-spacing: .08em; text-transform: uppercase; color: var(--t3); margin-bottom: 10px; }
+.rc-title { font-size: .9375rem; font-weight: 600; letter-spacing: -.02em; line-height: 1.35; margin-bottom: 10px; }
+.rc-body { font-size: .79rem; color: var(--t2); line-height: 1.7; }
+.rc-nums { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; }
+.rn-v { font-size: 1.4rem; font-weight: 700; letter-spacing: -.03em; line-height: 1; }
+.rn-l { font-size: .65rem; color: var(--t3); margin-top: 3px; }
+.rc-hr { height: 1px; background: var(--bd); margin: 16px 0; }
+.rc-co { font-size: .68rem; font-weight: 500; color: var(--t3); }
+.rc-mini { display: flex; gap: 20px; margin-top: 16px; }
+
+/* ── TESTIMONIALS ── */
+#testi { }
+.tst-grid { display: grid; grid-template-columns: repeat(3,1fr); gap: 10px; margin-top: 36px; }
+.tc { background: var(--bg1); border: 1px solid var(--bd); border-radius: 12px; padding: 22px; transition: border-color .2s; }
+.tc:hover { border-color: var(--bd2); }
+.tc-stars { font-size: .65rem; color: var(--t3); letter-spacing: 3px; margin-bottom: 14px; }
+.tc-text { font-size: .8125rem; color: var(--t2); line-height: 1.78; }
+.tc-person { display: flex; align-items: center; gap: 10px; margin-top: 18px; padding-top: 16px; border-top: 1px solid var(--bd); }
+.tc-av { width: 30px; height: 30px; border-radius: 50%; background: var(--bg2); border: 1px solid var(--bd2); display: flex; align-items: center; justify-content: center; font-size: .65rem; font-weight: 600; color: var(--t2); flex-shrink: 0; }
+.tc-name { font-size: .8rem; font-weight: 600; }
+.tc-role { font-size: .7rem; color: var(--t3); margin-top: 1px; }
+
+/* ── CTA ── */
+#cta { text-align: center; position: relative; overflow: hidden; }
+.cta-glow { position: absolute; top: 50%; left: 50%; transform: translate(-50%,-50%); width: 560px; height: 360px; pointer-events: none; background: radial-gradient(ellipse, rgba(99,102,241,.08), transparent 65%); }
+.cta-inner { position: relative; z-index: 1; max-width: 540px; margin: 0 auto; }
+.cta-h { font-size: clamp(1.75rem,3.2vw,2.5rem); font-weight: 700; letter-spacing: -.035em; line-height: 1.1; }
+.cta-h .m { color: var(--t3); }
+.cta-sub { font-size: .9rem; color: var(--t2); margin: 14px 0 26px; line-height: 1.7; }
+.cta-btns { display: flex; gap: 10px; justify-content: center; flex-wrap: wrap; }
+.cta-fn { display: flex; align-items: center; justify-content: center; gap: 16px; flex-wrap: wrap; margin-top: 20px; }
+.cta-fi { font-size: .72rem; color: var(--t3); }
+.cta-sep { color: var(--t3); font-size: .5rem; }
+
+/* ── CONTACT ── */
+#contact { }
+.ct-layout { display: grid; grid-template-columns: 1fr 1.35fr; gap: 52px; align-items: start; }
+.ct-h { font-size: clamp(1.4rem,2.4vw,1.75rem); font-weight: 700; letter-spacing: -.03em; line-height: 1.15; }
+.ct-sub { font-size: .875rem; color: var(--t2); margin-top: 10px; line-height: 1.7; }
+.ct-rows { margin-top: 22px; }
+.ct-row { display: flex; gap: 14px; padding: 11px 0; border-bottom: 1px solid var(--bd); }
+.ct-row:first-child { border-top: 1px solid var(--bd); }
+.ct-k { font-size: .65rem; font-weight: 600; letter-spacing: .08em; text-transform: uppercase; color: var(--t3); min-width: 58px; padding-top: 1px; }
+.ct-v { font-size: .8125rem; color: var(--t2); }
+.fw { background: var(--bg1); border: 1px solid var(--bd); border-radius: 12px; overflow: hidden; }
+.fw-h { padding: 12px 16px; background: var(--bg2); border-bottom: 1px solid var(--bd); font-size: .73rem; font-weight: 500; color: var(--t3); }
+.fb { padding: 16px; display: flex; flex-direction: column; gap: 10px; }
+.fg { display: flex; flex-direction: column; gap: 5px; }
+.fr { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
+.fl { font-size: .68rem; font-weight: 500; color: var(--t3); }
+.fi, .fsel, .fta { padding: 9px 11px; border-radius: 7px; background: var(--bg2); border: 1px solid var(--bd); color: var(--t1); font-family: var(--f); font-size: .8rem; outline: none; transition: border-color .15s; }
+.fi:focus, .fsel:focus, .fta:focus { border-color: var(--bd2); }
+.fi::placeholder, .fta::placeholder { color: var(--t3); }
+.fsel option { background: var(--bg2); }
+.fta { min-height: 84px; resize: none; line-height: 1.5; }
+.fsub { width: 100%; padding: 10px; border-radius: 7px; background: #fff; color: #0a0a0a; font-family: var(--f); font-size: .875rem; font-weight: 600; border: none; transition: background .15s; }
+.fsub:hover { background: #e8e8e8; }
+.fsub.sent { background: #1a7a45; color: #fff; }
+.fn { font-size: .67rem; color: var(--t3); text-align: center; padding: 0 16px 14px; }
+
+/* ── FOOTER ── */
+footer {
+  background: var(--bggrey);
+  border-top: 1px solid var(--bd);
+  padding: 40px 0 28px;
+}
+.ft-grid { display: grid; grid-template-columns: 1.8fr 1fr 1fr 1fr; gap: 32px; }
+.ft-logo-r { display: flex; align-items: center; gap: 7px; margin-bottom: 9px; }
+.ft-lm { width: 22px; height: 22px; background: #fff; border-radius: 5px; display: flex; align-items: center; justify-content: center; font-size: .65rem; font-weight: 800; color: #0a0a0a; }
+.ft-ln { font-size: .875rem; font-weight: 700; letter-spacing: -.015em; }
+.ft-tag { font-size: .775rem; color: var(--t3); line-height: 1.6; max-width: 210px; }
+.ft-col h5 { font-size: .63rem; font-weight: 600; letter-spacing: .1em; text-transform: uppercase; color: var(--t3); margin-bottom: 12px; }
+.ft-col ul { list-style: none; display: flex; flex-direction: column; gap: 9px; }
+.ft-col ul a { font-size: .775rem; color: var(--t3); transition: color .15s; }
+.ft-col ul a:hover { color: var(--t2); }
+.ft-btm { display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 8px; margin-top: 32px; padding-top: 22px; border-top: 1px solid var(--bd); }
+.ft-copy { font-size: .72rem; color: var(--t3); }
+
+/* ── RESPONSIVE ── */
+@media (max-width: 900px) {
+  .w { padding: 0 24px; }
+  .n-links, .n-right { display: none; }
+  .ham { display: flex; }
+  .pillars { grid-template-columns: 1fr 1fr; }
+  .store-grid { grid-template-columns: 1fr; }
+  .store-card.wide { grid-column: span 1; }
+  .agents-grid { grid-template-columns: 1fr 1fr; }
+  .sectors-grid { grid-template-columns: repeat(2,1fr); }
+  .steps { grid-template-columns: 1fr 1fr; }
+  .step:nth-child(2n) { border-right: none; }
+  .step:nth-child(n+3) { border-top: 1px solid var(--bd); }
+  .res-grid { grid-template-columns: 1fr; }
+  .rc.big { grid-column: span 1; grid-template-columns: 1fr; gap: 22px; }
+  .tst-grid { grid-template-columns: 1fr 1fr; }
+  .ct-layout { grid-template-columns: 1fr; gap: 32px; }
+  .ft-grid { grid-template-columns: 1fr 1fr; gap: 24px; }
+  .hero-stats { max-width: 100%; }
+  .hstat { padding: 18px 16px; }
+  section { padding: 64px 0; }
+}
+@media (max-width: 580px) {
+  .pillars { grid-template-columns: 1fr; }
+  .agents-grid { grid-template-columns: 1fr; }
+  .sectors-grid { grid-template-columns: 1fr 1fr; }
+  .tst-grid { grid-template-columns: 1fr; }
+  .fr { grid-template-columns: 1fr; }
+  .ft-grid { grid-template-columns: 1fr; }
+  .hero-stats { flex-direction: column; }
+  .hstat { border-right: none !important; border-bottom: 1px solid var(--bd); }
+  .hstat:last-child { border-bottom: none; }
+  #hero { padding: 110px 0 64px; }
+}
+</style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav>
+  <a href="#" class="n-logo">
+    <div class="n-mark">A</div>
+    Agenix
+  </a>
+  <div class="n-links">
+    <a href="#what" class="n-a">What We Do</a>
+    <a href="#stores" class="n-a">Stores</a>
+    <a href="#agents" class="n-a">Agents</a>
+    <a href="#sectors" class="n-a">Sectors</a>
+    <a href="#contact" class="n-a">Contact</a>
+  </div>
+  <div class="n-right">
+    <a href="#results" class="nb nb-o">See Results</a>
+    <a href="#contact" class="nb nb-w">Get Started</a>
+  </div>
+  <button class="ham" id="hamBtn">
+    <span class="hl"></span><span class="hl"></span><span class="hl"></span>
+  </button>
+</nav>
+<div class="mob" id="mobMenu">
+  <a href="#what" onclick="closeMob()">What We Do</a>
+  <a href="#stores" onclick="closeMob()">Stores</a>
+  <a href="#agents" onclick="closeMob()">Agents</a>
+  <a href="#sectors" onclick="closeMob()">Sectors</a>
+  <a href="#contact" onclick="closeMob()">Contact</a>
+</div>
+
+<!-- HERO -->
+<section id="hero">
+  <canvas id="plasma-canvas"></canvas>
+  <div class="hero-overlay"></div>
+  <div class="w" style="position:relative;z-index:2">
+
+    <h1 class="hero-h">
+      We build what makes<br>
+      <span class="m">every job easier.</span>
+    </h1>
+
+    <p class="hero-p">
+      From Shopify stores to AI agents, workflow automation to real-time assistants — we build the technology that takes the hard work out of running a business, a team, or a career.
+    </p>
+
+    <div class="hero-btns">
+      <a href="#contact" class="hbtn hbtn-p">Start a Project →</a>
+      <a href="#what" class="hbtn hbtn-g">See What We Build</a>
+    </div>
+
+    <div class="hero-stats rv">
+      <div class="hstat">
+        <div class="hstat-n">2 weeks</div>
+        <div class="hstat-l">From discovery<br>to first delivery</div>
+      </div>
+      <div class="hstat">
+        <div class="hstat-n">50+</div>
+        <div class="hstat-l">Businesses<br>delivered</div>
+      </div>
+      <div class="hstat">
+        <div class="hstat-n">All sectors</div>
+        <div class="hstat-l">Retail, healthcare,<br>finance, legal & more</div>
+      </div>
+      <div class="hstat">
+        <div class="hstat-n">End-to-end</div>
+        <div class="hstat-l">Frontend to<br>production deployment</div>
+      </div>
+    </div>
+
+  </div>
+</section>
+
+<!-- WHAT WE DO -->
+<section id="what">
+  <div class="w">
+    <span class="s-label rv">What We Do</span>
+    <h2 class="s-h rv d1">Three things we're great at</h2>
+    <p class="s-sub rv d2">We build stores, we build agents, and we automate workflows — end-to-end, from first line of code to production deployment.</p>
+
+    <div class="pillars">
+      <div class="pillar rv d1">
+        <div class="pillar-n">01</div>
+        <div class="pillar-title">E-Commerce Stores</div>
+        <p class="pillar-body">We build online stores from scratch — Shopify, WooCommerce, or fully custom — designed to sell, handle large catalogues, and scale without breaking.</p>
+        <div class="pillar-list">
+          <div class="pillar-item">Shopify & WooCommerce development</div>
+          <div class="pillar-item">Custom storefronts, any size catalogue</div>
+          <div class="pillar-item">10,000–20,000+ product management</div>
+          <div class="pillar-item">Payment, shipping & inventory setup</div>
+        </div>
+      </div>
+      <div class="pillar rv d2">
+        <div class="pillar-n">02</div>
+        <div class="pillar-title">AI Agents</div>
+        <p class="pillar-body">We build AI agents that work like a skilled employee — for your store, your business, or your personal workflow. They handle the repetitive, so you handle what matters.</p>
+        <div class="pillar-list">
+          <div class="pillar-item">Store agents (support, orders, inventory)</div>
+          <div class="pillar-item">Business agents (sales, HR, finance, legal)</div>
+          <div class="pillar-item">Personal assistants (students, teachers, professionals)</div>
+          <div class="pillar-item">Real-time, always-on, integrated with your tools</div>
+        </div>
+      </div>
+      <div class="pillar rv d3">
+        <div class="pillar-n">03</div>
+        <div class="pillar-title">Workflows & Automation</div>
+        <p class="pillar-body">We map your operations and automate the steps that don't need a human. Less manual work, fewer errors, and a team that can focus on the things that move things forward.</p>
+        <div class="pillar-list">
+          <div class="pillar-item">End-to-end workflow design & build</div>
+          <div class="pillar-item">Tool integrations across your entire stack</div>
+          <div class="pillar-item">Automated reporting & notifications</div>
+          <div class="pillar-item">Ongoing optimisation after launch</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- STORES -->
+<section id="stores">
+  <div class="w">
+    <span class="s-label rv">E-Commerce Stores</span>
+    <h2 class="s-h rv d1">We build stores that work</h2>
+    <p class="s-sub rv d2">Shopify, WooCommerce, or fully custom — built to sell, designed to scale, and ready for catalogues of any size.</p>
+
+    <div class="store-grid">
+      <div class="store-card rv d1">
+        <div class="store-card-top">
+          <div class="store-platform">Shopify</div>
+          <div class="store-tag">Most Popular</div>
+        </div>
+        <div class="store-title">Shopify Store Development</div>
+        <p class="store-body">Custom Shopify stores built for speed, conversions, and large catalogues. Theme development, app integrations, payment setup, and everything in between.</p>
+        <div class="store-feats">
+          <div class="store-feat">Custom theme design & development</div>
+          <div class="store-feat">Product import & bulk management (10,000–20,000+)</div>
+          <div class="store-feat">Payment gateway & shipping configuration</div>
+          <div class="store-feat">SEO, analytics & performance optimisation</div>
+        </div>
+      </div>
+      <div class="store-card rv d2">
+        <div class="store-card-top">
+          <div class="store-platform">WooCommerce</div>
+          <div class="store-tag">Full Control</div>
+        </div>
+        <div class="store-title">WooCommerce Development</div>
+        <p class="store-body">Built on WordPress, fully customisable, and owned by you completely. Ideal for businesses that need flexibility without the monthly platform fees.</p>
+        <div class="store-feats">
+          <div class="store-feat">Custom plugin development & integration</div>
+          <div class="store-feat">Multi-currency, multi-language support</div>
+          <div class="store-feat">Subscription & membership features</div>
+          <div class="store-feat">Hosting setup & production deployment</div>
+        </div>
+      </div>
+      <div class="store-card wide rv d1">
+        <div class="store-card-top">
+          <div class="store-platform">Custom Storefront</div>
+          <div class="store-tag">Enterprise</div>
+        </div>
+        <div class="store-title">Fully Custom E-Commerce Platforms</div>
+        <p class="store-body">For businesses that have outgrown off-the-shelf platforms — or need something specific that doesn't exist yet. Built from the ground up, frontend to production, with AI agents baked in from day one.</p>
+        <div class="store-feats" style="flex-direction:row;flex-wrap:wrap;gap:6px 28px">
+          <div class="store-feat">Bespoke frontend & backend architecture</div>
+          <div class="store-feat">AI-powered product search & recommendations</div>
+          <div class="store-feat">Real-time inventory & order management</div>
+          <div class="store-feat">Built-in customer support agent</div>
+          <div class="store-feat">Scalable infrastructure, production-ready</div>
+          <div class="store-feat">Any catalogue size — no limits</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- AGENTS -->
+<section id="agents">
+  <div class="w">
+    <span class="s-label rv">AI Agents</span>
+    <h2 class="s-h rv d1">Agents built for real work</h2>
+    <p class="s-sub rv d2">Not generic chatbots. Purpose-built agents that know your business, connect to your tools, and handle the job from start to finish.</p>
+
+    <div class="agents-grid">
+      <div class="ag rv d1">
+        <div class="ag-header"><div class="ag-n">01</div><div class="ag-tag">Store</div></div>
+        <div class="ag-title">Store Support Agent</div>
+        <div class="ag-body">Answers customer questions, checks order status, processes returns, and handles complaints — across your store chat, email, and WhatsApp. 24/7, no breaks.</div>
+        <div class="ag-stat">
+          <div class="ag-s"><div class="ag-sv">78%</div><div class="ag-sl">Queries resolved without human</div></div>
+          <div class="ag-s"><div class="ag-sv">24/7</div><div class="ag-sl">Always available</div></div>
+        </div>
+      </div>
+      <div class="ag rv d2">
+        <div class="ag-header"><div class="ag-n">02</div><div class="ag-tag">Store</div></div>
+        <div class="ag-title">Sales & Upsell Agent</div>
+        <div class="ag-body">Recommends the right products, handles abandoned carts, sends follow-ups at the right time, and personalises the shopping experience for every customer.</div>
+        <div class="ag-stat">
+          <div class="ag-s"><div class="ag-sv">+34%</div><div class="ag-sl">Average order value</div></div>
+          <div class="ag-s"><div class="ag-sv">−28%</div><div class="ag-sl">Cart abandonment</div></div>
+        </div>
+      </div>
+      <div class="ag rv d3">
+        <div class="ag-header"><div class="ag-n">03</div><div class="ag-tag">Business</div></div>
+        <div class="ag-title">Lead Qualification Agent</div>
+        <div class="ag-body">Responds to inbound enquiries in seconds, qualifies against your criteria, books meetings or starts follow-up sequences — without your team lifting a finger.</div>
+        <div class="ag-stat">
+          <div class="ag-s"><div class="ag-sv">42 sec</div><div class="ag-sl">Lead response time</div></div>
+          <div class="ag-s"><div class="ag-sv">340%</div><div class="ag-sl">Pipeline growth</div></div>
+        </div>
+      </div>
+      <div class="ag rv d1">
+        <div class="ag-header"><div class="ag-n">04</div><div class="ag-tag">Business</div></div>
+        <div class="ag-title">Invoice & Finance Agent</div>
+        <div class="ag-body">Reads invoices, matches purchase orders, flags discrepancies, and posts approved entries to your accounting system — automatically, no spreadsheets.</div>
+        <div class="ag-stat">
+          <div class="ag-s"><div class="ag-sv">99.97%</div><div class="ag-sl">Accuracy</div></div>
+          <div class="ag-s"><div class="ag-sv">8 min</div><div class="ag-sl">Per invoice (was 5 days)</div></div>
+        </div>
+      </div>
+      <div class="ag rv d2">
+        <div class="ag-header"><div class="ag-n">05</div><div class="ag-tag">Personal</div></div>
+        <div class="ag-title">Real-Time Personal Assistant</div>
+        <div class="ag-body">An AI assistant that knows your context — your work, your schedule, your documents. Helps students research, teachers plan lessons, and professionals get through the day faster.</div>
+        <div class="ag-stat">
+          <div class="ag-s"><div class="ag-sv">Any role</div><div class="ag-sl">Student, teacher, professional</div></div>
+          <div class="ag-s"><div class="ag-sv">Secure</div><div class="ag-sl">Your data stays yours</div></div>
+        </div>
+      </div>
+      <div class="ag rv d3" style="border-style:dashed;border-color:rgba(255,255,255,.05)">
+        <div class="ag-header"><div class="ag-n">06</div><div class="ag-tag">Custom</div></div>
+        <div class="ag-title">Any Agent You Need</div>
+        <div class="ag-body">HR screening, contract review, inventory management, content creation, reporting — if there's a job that repeats, we can build an agent that handles it.</div>
+        <div class="ag-stat">
+          <div class="ag-s"><div class="ag-sv">2 wks</div><div class="ag-sl">Average deployment</div></div>
+          <div class="ag-s"><div class="ag-sv">Fixed</div><div class="ag-sl">Price</div></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- SECTORS -->
+<section id="sectors">
+  <div class="w">
+    <span class="s-label rv">Sectors</span>
+    <h2 class="s-h rv d1">Built for every industry</h2>
+    <p class="s-sub rv d2">We've worked across a wide range of industries. The tools change, the approach stays the same — understand the job, build what fits.</p>
+
+    <div class="sectors-grid">
+
+      <div class="sector rv d1">
+        <div class="sector-icon">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M6 2L3 6v14a2 2 0 002 2h14a2 2 0 002-2V6l-3-4z"/><line x1="3" y1="6" x2="21" y2="6"/><path d="M16 10a4 4 0 01-8 0"/>
+          </svg>
+        </div>
+        <div class="sector-name">Retail & E-Commerce</div>
+        <p class="sector-desc">Stores, product management, customer support agents, and sales automation.</p>
+      </div>
+
+      <div class="sector rv d2">
+        <div class="sector-icon">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M22 12h-4l-3 9L9 3l-3 9H2"/>
+          </svg>
+        </div>
+        <div class="sector-name">Healthcare</div>
+        <p class="sector-desc">Patient intake, appointment scheduling, document processing, and admin automation.</p>
+      </div>
+
+      <div class="sector rv d3">
+        <div class="sector-icon">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+            <rect x="2" y="3" width="20" height="14" rx="2" ry="2"/><line x1="8" y1="21" x2="16" y2="21"/><line x1="12" y1="17" x2="12" y2="21"/>
+          </svg>
+        </div>
+        <div class="sector-name">Legal</div>
+        <p class="sector-desc">Contract review, document classification, and compliance monitoring — automatically.</p>
+      </div>
+
+      <div class="sector rv d4">
+        <div class="sector-icon">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+            <line x1="12" y1="1" x2="12" y2="23"/><path d="M17 5H9.5a3.5 3.5 0 000 7h5a3.5 3.5 0 010 7H6"/>
+          </svg>
+        </div>
+        <div class="sector-name">Finance</div>
+        <p class="sector-desc">Invoice processing, reconciliation, reporting, and financial workflow automation.</p>
+      </div>
+
+      <div class="sector rv d1">
+        <div class="sector-icon">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M2 3h6a4 4 0 014 4v14a3 3 0 00-3-3H2z"/><path d="M22 3h-6a4 4 0 00-4 4v14a3 3 0 013-3h7z"/>
+          </svg>
+        </div>
+        <div class="sector-name">Education</div>
+        <p class="sector-desc">AI assistants for students and teachers — research, lesson planning, and personalised learning support.</p>
+      </div>
+
+      <div class="sector rv d2">
+        <div class="sector-icon">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+            <rect x="2" y="7" width="20" height="14" rx="2" ry="2"/><path d="M16 7V5a2 2 0 00-2-2h-4a2 2 0 00-2 2v2"/><line x1="12" y1="12" x2="12" y2="16"/><line x1="10" y1="14" x2="14" y2="14"/>
+          </svg>
+        </div>
+        <div class="sector-name">Manufacturing</div>
+        <p class="sector-desc">Inventory tracking, supplier communication, quality checks, and procurement automation.</p>
+      </div>
+
+      <div class="sector rv d3">
+        <div class="sector-icon">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M3 9l9-7 9 7v11a2 2 0 01-2 2H5a2 2 0 01-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/>
+          </svg>
+        </div>
+        <div class="sector-name">Real Estate</div>
+        <p class="sector-desc">Lead qualification, property listing management, client follow-up, and document handling.</p>
+      </div>
+
+      <div class="sector rv d4">
+        <div class="sector-icon">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+            <polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/>
+          </svg>
+        </div>
+        <div class="sector-name">Startups & Agencies</div>
+        <p class="sector-desc">Whatever you need built — we work from idea to production, fast and without unnecessary overhead.</p>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<!-- HOW WE WORK -->
+<section id="how">
+  <div class="w">
+    <span class="s-label rv">How We Work</span>
+    <h2 class="s-h rv d1">From idea to production in 2 weeks</h2>
+    <p class="s-sub rv d2">A straightforward process that gets you live fast — without surprises on either end.</p>
+
+    <div class="steps rv d2">
+      <div class="step">
+        <div class="step-n">01</div>
+        <div class="step-title">Discovery</div>
+        <p class="step-body">We understand your business, your workflow, and the exact outcome you need. No assumptions, no templates — everything starts here.</p>
+        <span class="step-time">Day 1–3</span>
+      </div>
+      <div class="step">
+        <div class="step-n">02</div>
+        <div class="step-title">Scope & Plan</div>
+        <p class="step-body">A clear spec, a fixed price, and a realistic timeline. You know exactly what you're getting before we write a single line of code.</p>
+        <span class="step-time">Day 3–5</span>
+      </div>
+      <div class="step">
+        <div class="step-n">03</div>
+        <div class="step-title">Build</div>
+        <p class="step-body">We build fast. You see progress daily. Feedback is incorporated as we go — not saved for the end when it's too late.</p>
+        <span class="step-time">Day 5–12</span>
+      </div>
+      <div class="step">
+        <div class="step-n">04</div>
+        <div class="step-title">Deploy & Support</div>
+        <p class="step-body">Production deployment, thorough testing, and 30 days of post-launch support included. We don't disappear after handover.</p>
+        <span class="step-time">Day 12–14</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- RESULTS -->
+<section id="results">
+  <div class="w">
+    <span class="s-label rv">Results</span>
+    <h2 class="s-h rv d1">What clients achieved</h2>
+    <p class="s-sub rv d2">Real numbers from live projects.</p>
+
+    <div class="res-grid">
+      <div class="rc big rv">
+        <div>
+          <div class="rc-cat">B2B SaaS · Sales Agent</div>
+          <div class="rc-title">Meridian SaaS tripled their pipeline in 90 days — without a single new hire</div>
+          <p class="rc-body">Their team was manually sorting through 400+ leads a month with a 48-hour response time. We built a qualification agent that responds, enriches, scores, and routes every lead automatically. The sales team now only speaks to people who are ready to buy.</p>
+          <div class="rc-hr"></div>
+          <div class="rc-co">Meridian SaaS — B2B software company</div>
+        </div>
+        <div>
+          <div class="rc-nums">
+            <div><div class="rn-v">340%</div><div class="rn-l">Pipeline growth in 90 days</div></div>
+            <div><div class="rn-v">42 sec</div><div class="rn-l">Response time (was 48 hrs)</div></div>
+            <div><div class="rn-v">31%</div><div class="rn-l">Lead-to-meeting rate (was 12%)</div></div>
+            <div><div class="rn-v">−65%</div><div class="rn-l">SDR operating cost</div></div>
+          </div>
+        </div>
+      </div>
+
+      <div class="rc rv d1">
+        <div class="rc-cat">E-Commerce · Store + Agent</div>
+        <div class="rc-title">Nexus Retail cut support costs 70% after adding a store agent</div>
+        <p class="rc-body">A support agent built into their WooCommerce store handles order queries, returns, and complaints across chat and WhatsApp. Customer satisfaction went up, costs went down.</p>
+        <div class="rc-mini">
+          <div><div class="rn-v" style="font-size:1.1rem">−70%</div><div class="rn-l">Support cost</div></div>
+          <div><div class="rn-v" style="font-size:1.1rem">4.9/5</div><div class="rn-l">CSAT (was 3.8)</div></div>
+        </div>
+        <div class="rc-hr"></div>
+        <div class="rc-co">Nexus Retail · D2C e-commerce</div>
+      </div>
+
+      <div class="rc rv d2">
+        <div class="rc-cat">Finance · Automation</div>
+        <div class="rc-title">Stratum Finance closed the month in 4 hours instead of 5 days</div>
+        <p class="rc-body">An invoice processing agent handles 2,000 documents a month at 99.97% accuracy. Three people who spent their week on data entry now work on things that actually matter.</p>
+        <div class="rc-mini">
+          <div><div class="rn-v" style="font-size:1.1rem">99.97%</div><div class="rn-l">Accuracy</div></div>
+          <div><div class="rn-v" style="font-size:1.1rem">5d → 4h</div><div class="rn-l">Month-end close</div></div>
+        </div>
+        <div class="rc-hr"></div>
+        <div class="rc-co">Stratum Finance · Financial services</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- TESTIMONIALS -->
+<section id="testi">
+  <div class="w">
+    <span class="s-label rv">From our clients</span>
+    <h2 class="s-h rv d1">In their own words</h2>
+
+    <div class="tst-grid">
+      <div class="tc rv d1">
+        <div class="tc-stars">★★★★★</div>
+        <p class="tc-text">"Our SDRs used to spend most of their day sorting through leads. Now they only talk to people who are ready. Pipeline tripled in a quarter and we didn't add a single person to the team."</p>
+        <div class="tc-person">
+          <div class="tc-av">JR</div>
+          <div><div class="tc-name">James Rothwell</div><div class="tc-role">CEO, Meridian SaaS</div></div>
+        </div>
+      </div>
+      <div class="tc rv d2">
+        <div class="tc-stars">★★★★★</div>
+        <p class="tc-text">"We were sceptical about adding a support agent to our store. But CSAT went from 3.8 to 4.9 and support costs dropped 70%. Customers don't care if it's AI — they care about getting a fast, accurate answer."</p>
+        <div class="tc-person">
+          <div class="tc-av">AS</div>
+          <div><div class="tc-name">Ananya Shah</div><div class="tc-role">Head of CX, Nexus Retail</div></div>
+        </div>
+      </div>
+      <div class="tc rv d3">
+        <div class="tc-stars">★★★★★</div>
+        <p class="tc-text">"We'd spoken to larger agencies who wanted six months to scope the work. Agenix had us live in two weeks with results in the first few days. That's the difference between a consultancy and a team that actually builds things."</p>
+        <div class="tc-person">
+          <div class="tc-av">DV</div>
+          <div><div class="tc-name">David Vance</div><div class="tc-role">CTO, Solara Energy</div></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- CTA -->
+<section id="cta">
+  <div class="cta-glow"></div>
+  <div class="w">
+    <div class="cta-inner rv">
+      <h2 class="cta-h">Tell us what you need.<br><span class="m">We'll build it.</span></h2>
+      <p class="cta-sub">Whether it's a store, an agent, a workflow, or all three — we work from idea to production. One team, end-to-end.</p>
+      <div class="cta-btns">
+        <a href="#contact" class="hbtn hbtn-p">Start a Project →</a>
+        <a href="#results" class="hbtn hbtn-g">See Results</a>
+      </div>
+      <div class="cta-fn">
+        <span class="cta-fi">Fixed-price projects</span>
+        <span class="cta-sep">·</span>
+        <span class="cta-fi">Frontend to deployment</span>
+        <span class="cta-sep">·</span>
+        <span class="cta-fi">Live in 2 weeks</span>
+        <span class="cta-sep">·</span>
+        <span class="cta-fi">All sectors</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- CONTACT -->
+<section id="contact">
+  <div class="w">
+    <div class="ct-layout">
+      <div>
+        <span class="s-label rv">Contact</span>
+        <h2 class="ct-h rv d1">Let's talk about your project</h2>
+        <p class="ct-sub rv d2">Tell us what you're trying to build. We'll come back with a clear plan and a fixed price — no obligation.</p>
+        <div class="ct-rows rv d3">
+          <div class="ct-row"><div class="ct-k">Email</div><div class="ct-v"><a href="/cdn-cgi/l/email-protection" class="__cf_email__" data-cfemail="95fdf0f9f9fad5f4f2f0fbfcedbbf4fc">[email&#160;protected]</a></div></div>
+          <div class="ct-row"><div class="ct-k">Phone</div><div class="ct-v">+44 20 7946 0392</div></div>
+          <div class="ct-row"><div class="ct-k">Based in</div><div class="ct-v">London, UK · Working worldwide</div></div>
+        </div>
+      </div>
+      <div class="rv d2">
+        <div class="fw">
+          <div class="fw-h">Send a message</div>
+
+          <!-- ════════════════════════════════════════════════════
+               FORMSPREE SETUP — 3 steps:
+               1. Go to https://formspree.io and sign up (free)
+               2. Create a new form → copy your unique form ID
+               3. Replace YOUR_FORM_ID below with that ID
+               e.g. action="https://formspree.io/f/xpwzgkld"
+               Submissions will be emailed to your Formspree account email.
+          ════════════════════════════════════════════════════ -->
+          <form
+            id="contactForm"
+            action="https://formspree.io/f/YOUR_FORM_ID"
+            method="POST"
+          >
+            <!-- Formspree: redirect back to same page after submit -->
+            <input type="hidden" name="_next" value="?submitted=true">
+            <!-- Formspree: custom subject line in your inbox -->
+            <input type="hidden" name="_subject" value="New project enquiry — Agenix website">
+            <!-- Honeypot spam protection -->
+            <input type="text" name="_gotcha" style="display:none">
+
+            <div class="fb">
+              <div class="fr">
+                <div class="fg">
+                  <label class="fl">First name</label>
+                  <input class="fi" type="text" name="first_name" placeholder="James" required>
+                </div>
+                <div class="fg">
+                  <label class="fl">Last name</label>
+                  <input class="fi" type="text" name="last_name" placeholder="Rothwell">
+                </div>
+              </div>
+              <div class="fg">
+                <label class="fl">Work email</label>
+                <input class="fi" type="email" name="email" placeholder="james@company.com" required>
+              </div>
+              <div class="fg">
+                <label class="fl">Company</label>
+                <input class="fi" type="text" name="company" placeholder="Acme Ltd">
+              </div>
+              <div class="fg">
+                <label class="fl">What do you need?</label>
+                <select class="fsel" name="service">
+                  <option value="">Select one</option>
+                  <option>E-Commerce Store (Shopify / WooCommerce)</option>
+                  <option>Custom Storefront</option>
+                  <option>AI Agent for my Store</option>
+                  <option>Business Automation / Workflow</option>
+                  <option>Personal AI Assistant</option>
+                  <option>Multiple things / Not sure yet</option>
+                </select>
+              </div>
+              <div class="fg">
+                <label class="fl">Tell us about your project</label>
+                <textarea class="fta" name="message" placeholder="What are you trying to build or automate? The more detail, the better." required></textarea>
+              </div>
+              <button type="submit" class="fsub" id="fsubBtn">
+                <span id="fsubTxt">Send Message →</span>
+              </button>
+            </div>
+          </form>
+
+          <!-- Success message (shown after submit) -->
+          <div id="formSuccess" style="display:none;padding:20px 16px;text-align:center">
+            <div style="font-size:.875rem;font-weight:600;color:#fff;margin-bottom:6px">✓ Message sent</div>
+            <div style="font-size:.775rem;color:rgba(255,255,255,.4)">We'll reply within one business day.</div>
+          </div>
+
+          <div class="fn">Reply within 1 business day · NDA available on request</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <div class="w">
+    <div class="ft-grid">
+      <div>
+        <div class="ft-logo-r">
+          <div class="ft-lm">A</div>
+          <span class="ft-ln">Agenix</span>
+        </div>
+        <p class="ft-tag">Stores, agents, and automation — for every business, every sector, from idea to production.</p>
+      </div>
+      <div class="ft-col">
+        <h5>Services</h5>
+        <ul>
+          <li><a href="#">E-Commerce Stores</a></li>
+          <li><a href="#">AI Agents</a></li>
+          <li><a href="#">Workflow Automation</a></li>
+          <li><a href="#">Personal Assistants</a></li>
+        </ul>
+      </div>
+      <div class="ft-col">
+        <h5>Company</h5>
+        <ul>
+          <li><a href="#">About</a></li>
+          <li><a href="#">Case Studies</a></li>
+          <li><a href="#">Blog</a></li>
+          <li><a href="#">Contact</a></li>
+        </ul>
+      </div>
+      <div class="ft-col">
+        <h5>Legal</h5>
+        <ul>
+          <li><a href="#">Privacy Policy</a></li>
+          <li><a href="#">Terms of Service</a></li>
+          <li><a href="#">Security</a></li>
+        </ul>
+      </div>
+    </div>
+    <div class="ft-btm">
+      <span class="ft-copy">© 2025 Agenix Ltd. All rights reserved.</span>
+      <span class="ft-copy">London, UK</span>
+    </div>
+  </div>
+</footer>
+
+<script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script><script>
+const hamBtn = document.getElementById('hamBtn');
+const mob = document.getElementById('mobMenu');
+let mo = false;
+hamBtn.addEventListener('click', () => {
+  mo = !mo;
+  mob.classList.toggle('open', mo);
+  const ls = hamBtn.querySelectorAll('.hl');
+  if (mo) {
+    ls[0].style.transform = 'rotate(45deg) translate(4px,4px)';
+    ls[1].style.opacity = '0';
+    ls[2].style.transform = 'rotate(-45deg) translate(4px,-4px)';
+  } else {
+    ls.forEach(l => { l.style.transform = ''; l.style.opacity = ''; });
+  }
+});
+function closeMob() {
+  mo = false; mob.classList.remove('open');
+  hamBtn.querySelectorAll('.hl').forEach(l => { l.style.transform = ''; l.style.opacity = ''; });
+}
+
+const obs = new IntersectionObserver(es => {
+  es.forEach(e => { if (e.isIntersecting) { e.target.classList.add('in'); obs.unobserve(e.target); } });
+}, { threshold: 0.06, rootMargin: '0px 0px -28px 0px' });
+document.querySelectorAll('.rv').forEach(el => obs.observe(el));
+
+// Formspree AJAX submission
+const contactForm = document.getElementById('contactForm');
+if (contactForm) {
+  contactForm.addEventListener('submit', async function(e) {
+    e.preventDefault();
+    const btn = document.getElementById('fsubBtn');
+    const txt = document.getElementById('fsubTxt');
+    btn.disabled = true;
+    txt.textContent = 'Sending…';
+    try {
+      const res = await fetch(contactForm.action, {
+        method: 'POST',
+        body: new FormData(contactForm),
+        headers: { 'Accept': 'application/json' }
+      });
+      if (res.ok) {
+        contactForm.style.display = 'none';
+        document.getElementById('formSuccess').style.display = 'block';
+      } else {
+        btn.disabled = false;
+        btn.style.background = '#7f1d1d';
+        btn.style.color = '#fca5a5';
+        txt.textContent = 'Something went wrong — please email us directly';
+        setTimeout(() => { btn.style.background=''; btn.style.color=''; txt.textContent='Send Message →'; }, 5000);
+      }
+    } catch(err) {
+      btn.disabled = false;
+      txt.textContent = 'Network error — please try again';
+      setTimeout(() => { txt.textContent='Send Message →'; }, 4000);
+    }
+  });
+}
+
+document.querySelectorAll('a[href^="#"]').forEach(a => {
+  a.addEventListener('click', e => {
+    const t = document.querySelector(a.getAttribute('href'));
+    if (t) { e.preventDefault(); t.scrollIntoView({ behavior: 'smooth', block: 'start' }); }
+  });
+});
+</script>
+
+
+<!-- ═══════════════════════════════════════════
+     PLASMA WAVES — WebGL2 Hero Background
+     Ported from React Bits Plasma component
+═══════════════════════════════════════════ -->
+<script>
+(function() {
+  var canvas = document.getElementById('plasma-canvas');
+  if (!canvas) return;
+
+  var gl = canvas.getContext('webgl2', {
+    alpha: true,
+    antialias: false,
+    premultipliedAlpha: false,
+    powerPreference: 'high-performance'
+  });
+  if (!gl) { canvas.style.display = 'none'; return; }
+
+  /* ── VERTEX SHADER ── */
+  var VERT = [
+    '#version 300 es',
+    'precision highp float;',
+    'in vec2 position;',
+    'in vec2 uv;',
+    'out vec2 vUv;',
+    'void main() {',
+    '  vUv = uv;',
+    '  gl_Position = vec4(position, 0.0, 1.0);',
+    '}'
+  ].join('\n');
+
+  /* ── FRAGMENT SHADER (exact port from React Bits Plasma) ── */
+  var FRAG = [
+    '#version 300 es',
+    'precision highp float;',
+    'uniform vec2  iResolution;',
+    'uniform float iTime;',
+    'uniform vec3  uCustomColor;',
+    'uniform float uUseCustomColor;',
+    'uniform float uSpeed;',
+    'uniform float uDirection;',
+    'uniform float uScale;',
+    'uniform float uOpacity;',
+    'uniform vec2  uMouse;',
+    'uniform float uMouseInteractive;',
+    'out vec4 fragColor;',
+
+    'bool finite1(float x){ return !(isnan(x) || isinf(x)); }',
+    'vec3 sanitize(vec3 c){',
+    '  return vec3(',
+    '    finite1(c.r)?c.r:0.0,',
+    '    finite1(c.g)?c.g:0.0,',
+    '    finite1(c.b)?c.b:0.0);',
+    '}',
+
+    'void mainImage(out vec4 o, vec2 C) {',
+    '  vec2 center = iResolution.xy * 0.5;',
+    '  C = (C - center) / uScale + center;',
+    '  vec2 mouseOffset = (uMouse - center) * 0.0002;',
+    '  C += mouseOffset * length(C - center) * step(0.5, uMouseInteractive);',
+    '  float i, d, z, T = iTime * uSpeed * uDirection;',
+    '  vec3 O, p, S;',
+    '  vec4 oo = vec4(0.0);',
+    '  for (vec2 r = iResolution.xy, Q; ++i < 60.; O += oo.w/d*oo.xyz) {',
+    '    p = z*normalize(vec3(C-.5*r,r.y));',
+    '    p.z -= 4.;',
+    '    S = p;',
+    '    d = p.y-T;',
+    '    p.x += .4*(1.+p.y)*sin(d + p.x*0.1)*cos(.34*d + p.x*0.05);',
+    '    Q = p.xz *= mat2(cos(p.y+vec4(0,11,33,0)-T));',
+    '    z += d = abs(sqrt(length(Q*Q)) - .25*(5.+S.y))/3.+8e-4;',
+    '    oo = 1.+sin(S.y+p.z*.5+S.z-length(S-p)+vec4(2,1,0,8));',
+    '  }',
+    '  o.xyz = tanh(O/1e4);',
+    '  o.w = 1.0;',
+    '}',
+
+    'void main() {',
+    '  vec4 o = vec4(0.0);',
+    '  mainImage(o, gl_FragCoord.xy);',
+    '  vec3 rgb = sanitize(o.rgb);',
+    '  float intensity = (rgb.r + rgb.g + rgb.b) / 3.0;',
+    '  vec3 customColor = intensity * uCustomColor;',
+    '  vec3 finalColor = mix(rgb, customColor, step(0.5, uUseCustomColor));',
+    '  float alpha = length(rgb) * uOpacity;',
+    '  fragColor = vec4(finalColor, alpha);',
+    '}'
+  ].join('\n');
+
+  /* ── COMPILE SHADERS ── */
+  function compileShader(type, src) {
+    var s = gl.createShader(type);
+    gl.shaderSource(s, src);
+    gl.compileShader(s);
+    if (!gl.getShaderParameter(s, gl.COMPILE_STATUS)) {
+      console.warn('Plasma shader error:', gl.getShaderInfoLog(s));
+      gl.deleteShader(s); return null;
+    }
+    return s;
+  }
+
+  var vs = compileShader(gl.VERTEX_SHADER, VERT);
+  var fs = compileShader(gl.FRAGMENT_SHADER, FRAG);
+  if (!vs || !fs) return;
+
+  var prog = gl.createProgram();
+  gl.attachShader(prog, vs);
+  gl.attachShader(prog, fs);
+  gl.linkProgram(prog);
+  if (!gl.getProgramParameter(prog, gl.LINK_STATUS)) {
+    console.warn('Plasma link error:', gl.getProgramInfoLog(prog)); return;
+  }
+  gl.useProgram(prog);
+
+  /* ── FULL-SCREEN TRIANGLE ── */
+  var positions = new Float32Array([-1,-1, 3,-1, -1,3]);
+  var uvCoords  = new Float32Array([0,0, 2,0, 0,2]);
+
+  function makeVBO(data, attrib, size) {
+    var buf = gl.createBuffer();
+    gl.bindBuffer(gl.ARRAY_BUFFER, buf);
+    gl.bufferData(gl.ARRAY_BUFFER, data, gl.STATIC_DRAW);
+    var loc = gl.getAttribLocation(prog, attrib);
+    if (loc >= 0) {
+      gl.enableVertexAttribArray(loc);
+      gl.vertexAttribPointer(loc, size, gl.FLOAT, false, 0, 0);
+    }
+  }
+  makeVBO(positions, 'position', 2);
+  makeVBO(uvCoords,  'uv', 2);
+
+  /* ── UNIFORMS ── */
+  var U = {};
+  ['iResolution','iTime','uCustomColor','uUseCustomColor','uSpeed',
+   'uDirection','uScale','uOpacity','uMouse','uMouseInteractive'
+  ].forEach(function(n) { U[n] = gl.getUniformLocation(prog, n); });
+
+  /* Color: teal #00b4d8 — close to what's in the screenshot */
+  var r = 0.0, g = 0.706, b = 0.847; // #00b4d8
+  gl.uniform3f(U.uCustomColor,    r, g, b);
+  gl.uniform1f(U.uUseCustomColor, 1.0);
+  gl.uniform1f(U.uSpeed,          0.6 * 0.4);   // speed * 0.4 (matches React component)
+  gl.uniform1f(U.uDirection,      1.0);          // forward
+  gl.uniform1f(U.uScale,          1.1);
+  gl.uniform1f(U.uOpacity,        0.85);
+  gl.uniform1f(U.uMouseInteractive, 1.0);
+  gl.uniform2f(U.uMouse,          0.0, 0.0);
+
+  /* ── ALPHA BLENDING ── */
+  gl.enable(gl.BLEND);
+  gl.blendFunc(gl.SRC_ALPHA, gl.ONE_MINUS_SRC_ALPHA);
+
+  /* ── RESIZE ── */
+  function resize() {
+    var hero = document.getElementById('hero');
+    var w = hero ? hero.offsetWidth  : window.innerWidth;
+    var h = hero ? hero.offsetHeight : window.innerHeight;
+    var dpr = Math.min(window.devicePixelRatio || 1, 2);
+    canvas.width  = Math.round(w * dpr);
+    canvas.height = Math.round(h * dpr);
+    canvas.style.width  = w + 'px';
+    canvas.style.height = h + 'px';
+    gl.viewport(0, 0, canvas.width, canvas.height);
+    gl.useProgram(prog);
+    gl.uniform2f(U.iResolution, canvas.width, canvas.height);
+  }
+  resize();
+  window.addEventListener('resize', resize);
+
+  /* ── MOUSE TRACKING ── */
+  var mouse = { x: 0, y: 0 };
+  var heroEl = document.getElementById('hero');
+  if (heroEl) {
+    heroEl.addEventListener('mousemove', function(e) {
+      var r2 = heroEl.getBoundingClientRect();
+      var dpr = Math.min(window.devicePixelRatio || 1, 2);
+      mouse.x = (e.clientX - r2.left) * dpr;
+      mouse.y = (heroEl.offsetHeight - (e.clientY - r2.top)) * dpr;
+    }, { passive: true });
+  }
+
+  /* ── PAUSE WHEN NOT VISIBLE ── */
+  var paused = false;
+  if ('IntersectionObserver' in window) {
+    new IntersectionObserver(function(entries) {
+      paused = !entries[0].isIntersecting;
+    }, { threshold: 0.01 }).observe(canvas);
+  }
+  document.addEventListener('visibilitychange', function() { paused = document.hidden; });
+
+  /* ── RENDER LOOP ── */
+  var t0 = performance.now();
+  var lastTS = null;
+
+  function frame(ts) {
+    requestAnimationFrame(frame);
+    if (paused) { lastTS = ts; return; }
+    var timeVal = (ts - t0) * 0.001;
+    gl.useProgram(prog);
+    gl.uniform1f(U.iTime, timeVal);
+    gl.uniform2f(U.uMouse, mouse.x, mouse.y);
+    gl.clear(gl.COLOR_BUFFER_BIT);
+    gl.drawArrays(gl.TRIANGLES, 0, 3);
+  }
+  requestAnimationFrame(frame);
+})();
+</script>
+
+</body>
+</html>
