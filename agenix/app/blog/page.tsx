@@ -2,67 +2,11 @@ import type { Metadata } from "next";
 import PageLayout from "@/components/PageLayout";
 import PageHero   from "@/components/PageHero";
 import Link       from "next/link";
+import { posts, catColors } from "@/lib/blog-posts";
 
 export const metadata: Metadata = {
   title: "Blog — Agenix",
   description: "Insights on AI agents, e-commerce, and workflow automation from the Agenix team.",
-};
-
-const posts = [
-  {
-    slug: "lead-qualification-agents",
-    cat: "AI Agents",
-    title: "How a Lead Qualification Agent Tripled a SaaS Company's Pipeline",
-    excerpt: "What happens when you replace a 48-hour response time with a 42-second one — and how we built the agent that did it.",
-    date: "12 Feb 2025",
-    readTime: "6 min read",
-  },
-  {
-    slug: "shopify-vs-custom",
-    cat: "E-Commerce",
-    title: "Shopify vs Custom Storefront: When to Upgrade and When Not To",
-    excerpt: "Most businesses don't need a custom storefront. Here's the framework we use to decide — and the signals that tell us when they do.",
-    date: "29 Jan 2025",
-    readTime: "8 min read",
-  },
-  {
-    slug: "invoice-automation",
-    cat: "Automation",
-    title: "From 5 Days to 4 Hours: Inside a Month-End Close Automation",
-    excerpt: "A walkthrough of how we automated 2,000 invoices a month — including the architecture, the edge cases, and what 99.97% accuracy actually means.",
-    date: "14 Jan 2025",
-    readTime: "10 min read",
-  },
-  {
-    slug: "ai-agents-vs-chatbots",
-    cat: "AI Agents",
-    title: "AI Agents vs Chatbots: What's the Actual Difference?",
-    excerpt: "The word 'chatbot' has become a catch-all that covers everything from a FAQ widget to a fully autonomous business agent. Here's how to tell them apart.",
-    date: "8 Jan 2025",
-    readTime: "5 min read",
-  },
-  {
-    slug: "woocommerce-large-catalogue",
-    cat: "E-Commerce",
-    title: "Managing 20,000 SKUs on WooCommerce Without Losing Your Mind",
-    excerpt: "The plugins, the architecture decisions, and the import pipeline we use to keep large-catalogue WooCommerce stores running fast and accurate.",
-    date: "18 Dec 2024",
-    readTime: "7 min read",
-  },
-  {
-    slug: "automation-roi",
-    cat: "Automation",
-    title: "How to Calculate the ROI of Business Automation (With Real Numbers)",
-    excerpt: "A practical framework for working out whether a workflow automation is worth building — and how to present the business case internally.",
-    date: "5 Dec 2024",
-    readTime: "9 min read",
-  },
-];
-
-const catColors: Record<string, string> = {
-  "AI Agents":   "rgba(99,102,241,.15)",
-  "E-Commerce":  "rgba(16,185,129,.12)",
-  "Automation":  "rgba(245,158,11,.12)",
 };
 
 export default function BlogPage() {
@@ -78,10 +22,11 @@ export default function BlogPage() {
         <div className="w">
           <div style={{ display: "grid", gridTemplateColumns: "repeat(3,1fr)", gap: 10 }}>
             {posts.map((post, i) => (
-              <article
+              <Link
                 key={post.slug}
+                href={`/blog/${post.slug}`}
                 className={`pillar rv d${(i % 3) + 1}`}
-                style={{ display: "flex", flexDirection: "column" }}
+                style={{ display: "flex", flexDirection: "column", textDecoration: "none" }}
               >
                 <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", marginBottom: 16 }}>
                   <span
@@ -106,7 +51,7 @@ export default function BlogPage() {
                   <span style={{ fontSize: ".65rem", color: "var(--t3)" }}>{post.date}</span>
                   <span style={{ fontSize: ".72rem", color: "var(--t3)" }}>Read →</span>
                 </div>
-              </article>
+              </Link>
             ))}
           </div>
 

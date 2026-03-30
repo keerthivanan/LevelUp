@@ -13,7 +13,7 @@ const inter = Inter({
 });
 
 export const metadata: Metadata = {
-  title: "Agenix — Stores, Agents & Automation",
+  title: "Dizilo — Stores, Agents & Automation",
   description:
     "We build Shopify & WooCommerce stores, custom AI agents, and workflow automation — end-to-end, from first line of code to production deployment.",
   keywords: [
@@ -26,7 +26,7 @@ export const metadata: Metadata = {
     "custom storefront",
   ],
   openGraph: {
-    title: "Agenix — Stores, Agents & Automation",
+    title: "Dizilo — Stores, Agents & Automation",
     description:
       "From Shopify stores to AI agents, workflow automation to real-time assistants — we build the technology that takes the hard work out of running a business.",
     type: "website",
@@ -35,7 +35,7 @@ export const metadata: Metadata = {
   },
   twitter: {
     card: "summary_large_image",
-    title: "Agenix — Stores, Agents & Automation",
+    title: "Dizilo — Stores, Agents & Automation",
     description:
       "From Shopify stores to AI agents, workflow automation to real-time assistants — we build the technology that takes the hard work out of running a business.",
   },
@@ -54,7 +54,7 @@ export default function RootLayout({
             __html: JSON.stringify({
               "@context": "https://schema.org",
               "@type": "Organization",
-              name: "Agenix",
+              name: "Dizilo",
               description:
                 "We build e-commerce stores, AI agents, and workflow automation for businesses of all sizes.",
               address: { "@type": "PostalAddress", addressLocality: "London", addressCountry: "GB" },

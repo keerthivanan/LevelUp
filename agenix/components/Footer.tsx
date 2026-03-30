@@ -1,4 +1,5 @@
-import Link from "next/link";
+import Link  from "next/link";
+import Image from "next/image";
 
 export default function Footer() {
   const year = new Date().getFullYear();
@@ -9,8 +10,13 @@ export default function Footer() {
         <div className="ft-grid">
           <div>
             <div className="ft-logo-r">
-              <div className="ft-lm" aria-hidden="true">A</div>
-              <span className="ft-ln">Agenix</span>
+              <Image
+                src="/dizilo.png"
+                alt="Dizilo"
+                width={100}
+                height={36}
+                style={{ objectFit: "contain", objectPosition: "left center" }}
+              />
             </div>
             <p className="ft-tag">
               Stores, agents, and automation — for every business, every sector,
@@ -49,7 +55,7 @@ export default function Footer() {
         </div>
 
         <div className="ft-btm">
-          <span className="ft-copy">© {year} Agenix Ltd. All rights reserved.</span>
+          <span className="ft-copy">© {year} Dizilo Ltd. All rights reserved.</span>
           <span className="ft-copy">London, UK</span>
         </div>
       </div>

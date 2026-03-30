@@ -2,6 +2,7 @@
 
 import { useState, useCallback } from "react";
 import Link from "next/link";
+import Image from "next/image";
 import { usePathname } from "next/navigation";
 
 const NAV_LINKS = [
@@ -34,8 +35,12 @@ function NavLink({
 
   const finalHref = hash ? `${href}#${hash}` : href;
 
+  const isActive = hash
+    ? pathname === "/"
+    : href !== "/" && pathname.startsWith(href);
+
   return (
-    <Link href={finalHref} className="n-a" onClick={handleClick}>
+    <Link href={finalHref} className={`n-a${isActive ? " n-a-active" : ""}`} onClick={handleClick}>
       {label}
     </Link>
   );
@@ -48,9 +53,15 @@ export default function Nav() {
   return (
     <>
       <nav id="main-nav" style={{ backgroundColor: "#1c1a1c" }}>
-        <Link href="/" className="n-logo">
-          <div className="n-mark" aria-hidden="true">A</div>
-          Agenix
+        <Link href="/" className="n-logo" aria-label="Dizilo — Home">
+          <Image
+            src="/dizilo.png"
+            alt="Dizilo"
+            width={90}
+            height={32}
+            style={{ objectFit: "contain", objectPosition: "left center" }}
+            priority
+          />
         </Link>
 
         <div className="n-links" role="navigation" aria-label="Main navigation">

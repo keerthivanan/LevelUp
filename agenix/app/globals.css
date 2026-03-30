@@ -64,6 +64,7 @@ section { padding: 80px 0; }
   font-weight: 500; color: var(--t2); transition: color .15s, background .15s;
 }
 .n-a:hover { color: var(--t1); background: rgba(255,255,255,.06); }
+.n-a-active { color: var(--t1) !important; background: rgba(255,255,255,.1) !important; }
 .n-right { display: flex; gap: 8px; align-items: center; }
 .nb { padding: 7px 16px; border-radius: 9px; font-size: .8rem; font-weight: 500; border: none; transition: all .15s; cursor: pointer; }
 .nb-o { background: none; color: var(--t2); border: 1px solid var(--bd2); }
