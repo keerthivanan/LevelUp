@@ -1,13 +1,20 @@
 import https from "https";
 
-const API_KEY = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJiZjNkMDhmNy04YTU0LTRlMTAtODJlNC01MTJjNmNlOGU1YjgiLCJpc3MiOiJuOG4iLCJhdWQiOiJwdWJsaWMtYXBpIiwianRpIjoiNTg5NjcwN2EtMWJmYy00YmVkLWJhY2MtMzcyNDI5YTYzZTJjIiwiaWF0IjoxNzc0ODc0NjAwLCJleHAiOjE3Nzc0MTM2MDB9.rT1c3t7BWiIqWf5rCRqy8tTZe4GDz5UqcKgYc5od4U0";
-const GMAIL_CRED = { id: "ZJ2jl5Gp66eYAA1A", name: "dizilo" };
+// Load from .env.local — never hardcode keys
+import { readFileSync } from "fs";
+const env = Object.fromEntries(
+  readFileSync(new URL("../.env.local", import.meta.url), "utf8")
+    .split("\n").filter(l => l && !l.startsWith("#"))
+    .map(l => l.split("=").map((p, i) => i === 0 ? p.trim() : l.slice(l.indexOf("=") + 1).trim()))
+);
+const API_KEY    = env.N8N_API_KEY;
+const GMAIL_CRED = { id: env.GMAIL_CRED_ID, name: "dizilo" };
 
 function apiReq(method, path, body) {
   return new Promise((resolve, reject) => {
     const data = body ? JSON.stringify(body) : null;
     const opts = {
-      hostname: "n8n.srv1520651.hstgr.cloud", path, method,
+      hostname: env.N8N_HOST, path, method,
       headers: { "X-N8N-API-KEY": API_KEY, "Content-Type": "application/json",
         ...(data ? { "Content-Length": Buffer.byteLength(data) } : {}) },
     };
@@ -181,7 +188,7 @@ const contactOwner = shell(
       node.credentials = { gmailOAuth2: GMAIL_CRED };
       node.parameters.message = "=" + minify(bookingOwner);
       node.parameters.subject = "=New booking: {{ $('Extract Fields').item.json.name }} \u2014 {{ $('Extract Fields').item.json.date }}";
-      node.parameters.sendTo  = "keerthivanan.ds.ai@gmail.com, manojkumardizilo@gmail.com";
+      node.parameters.sendTo  = env.OWNER_EMAILS.replace(",", ", ");
       console.log("  Owner email updated");
     }
   }
@@ -207,7 +214,7 @@ const contactOwner = shell(
       node.credentials = { gmailOAuth2: GMAIL_CRED };
       node.parameters.message = "=" + minify(contactOwner);
       node.parameters.subject = "=New enquiry: {{ $json.first_name }} {{ $json.last_name }} \u2014 {{ $json.service }}";
-      node.parameters.sendTo  = "keerthivanan.ds.ai@gmail.com, manojkumardizilo@gmail.com";
+      node.parameters.sendTo  = env.OWNER_EMAILS.replace(",", ", ");
       console.log("  Contact owner email updated");
     }
   }
@@ -221,10 +228,11 @@ const contactOwner = shell(
   await new Promise(r => setTimeout(r, 500));
   const test = (path, body) => new Promise((res, rej) => {
     const data = JSON.stringify(body);
-    const o = { hostname: "n8n.srv1520651.hstgr.cloud", path, method: "POST", headers: { "Content-Type": "application/json", "Content-Length": Buffer.byteLength(data) } };
+    const o = { hostname: env.N8N_HOST, path, method: "POST", headers: { "Content-Type": "application/json", "Content-Length": Buffer.byteLength(data) } };
     const r = https.request(o, x => { let d = ""; x.on("data", c => d += c); x.on("end", () => res({ s: x.statusCode, b: d.slice(0, 80) })); });
     r.on("error", rej); r.write(data); r.end();
   });
-  const t = await test("/webhook/dizilo-book", { name: "Keerthi V", email: "keerthivanan.ds.ai@gmail.com", date: "2026-04-15", time: "10:00", service: "Discovery Call", notes: "Logo fix test" });
+  const testEmail = env.OWNER_EMAILS.split(",")[0].trim();
+  const t = await test("/webhook/dizilo-book", { name: "Test User", email: testEmail, date: "2026-04-15", time: "10:00", service: "Discovery Call", notes: "Template test" });
   console.log("Booking test HTTP:", t.s, t.b);
 })();
