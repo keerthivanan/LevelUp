@@ -31,21 +31,35 @@ const CLOUD   = env.CLOUDINARY_CLOUD_NAME;
 const LOGO_ID = env.CLOUDINARY_LOGO_ID;
 const WF_ID   = "nSTbmFIcCJ6lDI0q";
 
-// Double-dot (..) encodes a literal period in Cloudinary text overlay URLs
-// "dizilo..com" renders as "dizilo.com" on the image
+// Cloudinary adds: headline text (top-left) + canvas reset + logo (bottom-right)
+// c_scale,w_1792 between text and logo restores the canvas so g_south_east works correctly
 const buildBrandedUrlCode = `
 const publicId = $input.first().json.public_id;
 const post     = $('Prepare Upload Signature').item.json.post;
+const headline = $('Extract Post Text').item.json.headline || '';
 
 const cloud  = '${CLOUD}';
 const logoId = '${LOGO_ID}';
 
-// Text overlay: "dizilo.com" in red bottom-left (.. = literal dot in Cloudinary)
-const textLayer  = 'l_text:Arial_36_bold:dizilo..com,co_rgb:FF3333,g_south_west,x_50,y_40,fl_layer_apply';
-// Logo overlay: DZ logo bottom-right
-const logoLayer  = 'l_' + logoId + ',w_110,g_south_east,x_30,y_30,fl_layer_apply';
+// Encode headline for Cloudinary URL
+const enc = (t) => {
+  let s = t.length > 72 ? t.slice(0, 72).replace(/\\s\\S*$/, '') : t;
+  return s
+    .replace(/\\./g,'..').replace(/,/g,'%2C').replace(/!/g,'%21')
+    .replace(/\\?/g,'%3F').replace(/'/g,'%27').replace(/&/g,'%26')
+    .replace(/#/g,'%23').replace(/\\//g,':').replace(/ /g,'%20');
+};
 
-const brandedUrl = 'https://res.cloudinary.com/' + cloud + '/image/upload/' + textLayer + '/' + logoLayer + '/' + publicId;
+const encoded = enc(headline);
+
+// 1. Headline: large white bold text top-left, constrained h to prevent canvas expansion
+const textLayer  = 'l_text:Arial_58_bold:' + encoded + ',co_rgb:FFFFFF,w_700,h_340,c_fit,g_north_west,x_50,y_70,fl_layer_apply';
+// 2. Reset canvas back to original image width so logo gravity works correctly
+const resetCanvas = 'c_scale,w_1792';
+// 3. Logo: bottom-right corner
+const logoLayer  = 'l_' + logoId + ',w_130,g_south_east,x_30,y_30,fl_layer_apply';
+
+const brandedUrl = 'https://res.cloudinary.com/' + cloud + '/image/upload/' + textLayer + '/' + resetCanvas + '/' + logoLayer + '/' + publicId;
 
 return [{ json: { post, imageUrl: brandedUrl } }];
 `;
