@@ -29,7 +29,7 @@ function NavLink({
         // Let Next.js navigate to /#hash — browser handles scroll
       }
     },
-    [hash, isHome, onClick]
+    [hash, pathname, onClick]
   );
 
   const finalHref = hash ? `${href}#${hash}` : href;
