@@ -18,15 +18,14 @@ function NavLink({
   label, href, hash, onClick,
 }: { label: string; href: string; hash?: string; onClick?: () => void }) {
   const pathname = usePathname();
-  const isHome   = pathname === "/";
 
   const handleClick = useCallback(
     (e: React.MouseEvent<HTMLAnchorElement>) => {
       onClick?.();
-      if (hash && isHome) {
+      if (hash && pathname === "/") {
         e.preventDefault();
         document.getElementById(hash)?.scrollIntoView({ behavior: "smooth", block: "start" });
-      } else if (hash && !isHome) {
+      } else if (hash && pathname !== "/") {
         // Let Next.js navigate to /#hash — browser handles scroll
       }
     },
@@ -35,13 +34,8 @@ function NavLink({
 
   const finalHref = hash ? `${href}#${hash}` : href;
 
-  // Highlight page links by pathname; highlight hash-links when on home page
-  const isActive = hash
-    ? pathname === "/"
-    : href !== "/" && pathname.startsWith(href);
-
   return (
-    <Link href={finalHref} className={`n-a${isActive ? " n-a-active" : ""}`} onClick={handleClick}>
+    <Link href={finalHref} className="n-a" onClick={handleClick}>
       {label}
     </Link>
   );
