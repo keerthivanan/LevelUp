@@ -45,6 +45,13 @@ export const metadata: Metadata = {
       "From Shopify stores to AI agents, workflow automation to real-time assistants — we build the technology that takes the hard work out of running a business.",
     images: ["/opengraph-image"],
   },
+  icons: {
+    icon: [
+      { url: "/diziloredfavicon.png", type: "image/png" },
+    ],
+    shortcut: "/diziloredfavicon.png",
+    apple: "/diziloredfavicon.png",
+  },
   alternates: { canonical: "https://dizilo.com" },
   robots: { index: true, follow: true, googleBot: { index: true, follow: true } },
 };

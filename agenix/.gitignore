@@ -42,7 +42,16 @@ yarn-error.log*
 next-env.d.ts
 .env*.local
 
-# n8n workflow exports — keep off GitHub
+# n8n automation scripts — contain hardcoded API keys, never commit
+scripts/
+CLAUDE.md
+
+# n8n workflow exports — contain credentials
 n8n-*.json
 server-*-workflow.json
 *-workflow.json
+*.json
+
+# temp/test output files
+*.txt
+preview.*
